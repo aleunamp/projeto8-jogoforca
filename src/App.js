@@ -17,5 +17,29 @@ export default function App() {
     const imagensDaForca = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
     console.log(imagensDaForca);
 
-    return "oiee";
+    return (<div>
+        <div className="jogo">
+            <div className="forca-aposta">
+                <div className="forca">
+                    <img src={imagensDaForca[0]} />
+                </div>
+                <div className="aposta">
+                    <button className="escolhaDePalavra">Escolher Palavra</button>
+                    <div className="letrasCorretas">letras</div>
+                </div>
+            </div>
+
+            <div className="botoes-chute">
+                <div className="botoes">
+                    <button className="botao">A</button>
+                </div>
+                <div className="chute">
+                    <p>Já sei a palavra!</p>
+                    <input placeholder="Digite a palavra aqui..." />
+                    <button className="confirmarChute">Chutar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    )
 }

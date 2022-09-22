@@ -1,0 +1,72 @@
+.jogo, .forca-aposta, .aposta, .chute {
+    display: flex;
+}
+
+.jogo, .aposta{
+    flex-direction: column;
+    align-items: center;
+}
+
+.escolhaDePalavra, .botao, input, .confirmarChute{
+    border-radius: 5px;
+}
+
+.escolhaDePalavra, .botao, .confirmarChute{
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.jogo{
+    width: 100%;
+    margin-top: 50px;
+}
+
+.forca-aposta{
+    gap: 120px;
+}
+
+img {
+    width: 400px;
+    height: 400px;
+}
+
+.escolhaDePalavra{
+    margin-top: 30px;
+    padding: 10px 10px;
+
+    color: white;
+    background-color: green;
+}
+
+.letrasCorretas {
+    margin-top: 250px;
+}
+
+.botoes-chute{
+    margin-top: 50px;
+}
+
+.botao{
+    padding: 5px 10px;
+
+    color: gray;
+    background-color: lightgrey;
+}
+
+.chute {
+    margin-top: 20px;
+    gap: 10px;
+
+    align-items: center;
+}
+
+input, .confirmarChute {
+    padding: 5px 5px;
+}
+
+.confirmarChute{
+    color: blue;
+    background-color: lightblue;
+}
+
