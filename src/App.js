@@ -1,3 +1,4 @@
+import React from "react"
 import palavras from "./Palavras";
 import forca0 from "./assets/forca0.png";
 import forca1 from "./assets/forca1.png";
@@ -9,18 +10,24 @@ import forca6 from "./assets/forca6.png";
 
 
 export default function App() {
+    const [desabilitar, setDesabilitar] = React.useState(true);
+    const [contagemDeErros, setContagem] = React.useState(0);
+    const [sublinhados, setSublinhado] = React.useState("");
+
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
         "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    console.log(alfabeto.length);
 
     console.log(palavras);
 
     const imagensDaForca = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
-    console.log(imagensDaForca);
 
     function Botao(props) {
         return (
-            <button onClick={selecionarLetra} className="botao">{props.letra}</button>
+            <button 
+                disabled={desabilitar}
+                data-identifier="letter"
+                onClick={selecionarLetra} className="botao">{props.letra}
+            </button>
         )
     }
 
@@ -31,8 +38,10 @@ export default function App() {
 
         const arrayPalavra = palavraSorteada.split("");
         const qtdDeLetras = arrayPalavra.length;
-        console.log(arrayPalavra);
         console.log(qtdDeLetras);
+
+        setSublinhado("__ ".repeat(qtdDeLetras));
+        setDesabilitar(false);
     }
 
     function selecionarLetra() {
@@ -47,13 +56,16 @@ export default function App() {
         <div className="jogo">
             <div className="forca-aposta">
                 <div className="forca">
-                    <img src={imagensDaForca[0]} alt={imagensDaForca[0]} />
+                    <img data-identifier="game-image"
+                        src={imagensDaForca[contagemDeErros]} alt={imagensDaForca[contagemDeErros]}
+                    />
                 </div>
                 <div className="aposta">
-                    <button onClick={sortearPalavra} className="escolhaDePalavra">
+                    <button data-identifier="choose-word"
+                        onClick={sortearPalavra} className="escolhaDePalavra">
                         Escolher Palavra
                     </button>
-                    <div className="letrasCorretas">letras</div>
+                    <div data-identifier="word" className="letrasCorretas">{sublinhados}</div>
                 </div>
             </div>
 
@@ -63,8 +75,12 @@ export default function App() {
                 </div>
                 <div className="chute">
                     <p>Já sei a palavra!</p>
-                    <input placeholder="Digite a palavra aqui..." />
+                    <input data-identifier="type-guess"
+                        placeholder="Digite a palavra aqui..."
+                    />
                     <button
+                        disabled={desabilitar}
+                        data-identifier="guess-button"
                         onClick={chutarPalavra}
                         className="confirmarChute">
                         Chutar
