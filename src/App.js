@@ -18,23 +18,28 @@ export default function App() {
     const imagensDaForca = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
     console.log(imagensDaForca);
 
-    function Botao(props){
+    function Botao(props) {
         return (
             <button onClick={selecionarLetra} className="botao">{props.letra}</button>
         )
     }
 
-    function sortearPalavra(){
-        const indiceSorteado =  Math.floor(Math.random() * palavras.length);
+    function sortearPalavra() {
+        const indiceSorteado = Math.floor(Math.random() * palavras.length);
         const palavraSorteada = palavras[indiceSorteado];
         console.log(palavraSorteada);
+
+        const arrayPalavra = palavraSorteada.split("");
+        const qtdDeLetras = arrayPalavra.length;
+        console.log(arrayPalavra);
+        console.log(qtdDeLetras);
     }
 
-    function selecionarLetra(){
+    function selecionarLetra() {
         console.log("Tá funcionando");
     }
 
-    function chutarPalavra(){
+    function chutarPalavra() {
         console.log("Tá funcionando");
     }
 
@@ -54,12 +59,16 @@ export default function App() {
 
             <div className="botoes-chute">
                 <div className="botoes">
-                    {alfabeto.map((l, index) => <Botao key={index} letra = {l.toUpperCase()}/>)}
+                    {alfabeto.map((l, index) => <Botao key={index} letra={l.toUpperCase()} />)}
                 </div>
                 <div className="chute">
                     <p>Já sei a palavra!</p>
                     <input placeholder="Digite a palavra aqui..." />
-                    <button onClick={chutarPalavra} className="confirmarChute">Chutar</button>
+                    <button
+                        onClick={chutarPalavra}
+                        className="confirmarChute">
+                        Chutar
+                    </button>
                 </div>
             </div>
         </div>
