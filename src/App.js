@@ -13,42 +13,47 @@ export default function App() {
     const [desabilitar, setDesabilitar] = React.useState(true);
     const [contagemDeErros, setContagem] = React.useState(0);
     const [sublinhados, setSublinhado] = React.useState("");
+    const [arrayPalavra, setArrayPalavra] = React.useState([]);
 
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
         "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
-    console.log(palavras);
 
     const imagensDaForca = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
-
-    function Botao(props) {
-        return (
-            <button 
-                disabled={desabilitar}
-                data-identifier="letter"
-                onClick={selecionarLetra} className="botao">{props.letra}
-            </button>
-        )
-    }
 
     function sortearPalavra() {
         const indiceSorteado = Math.floor(Math.random() * palavras.length);
         const palavraSorteada = palavras[indiceSorteado];
         console.log(palavraSorteada);
 
-        const arrayPalavra = palavraSorteada.split("");
-        const qtdDeLetras = arrayPalavra.length;
+        const arrayDaPalavra = palavraSorteada.split("");
+        const qtdDeLetras = arrayDaPalavra.length;
         console.log(qtdDeLetras);
 
         setSublinhado("__ ".repeat(qtdDeLetras));
+
+        setArrayPalavra(palavraSorteada.split(""));
+        console.log(arrayPalavra);
+
         setDesabilitar(false);
     }
 
-    function selecionarLetra() {
-        console.log("Tá funcionando");
+    function selecionarLetra(letra) {
+        console.log(arrayPalavra);
+
+        //testa se a letra está na palavra sorteada
+        if (arrayPalavra.includes(letra)) {
+            console.log("Tá funcionando");
+        } else {
+            setContagem(contagemDeErros + 1);
+            console.log("não tem essa letra aí");
+        }
     }
 
     function chutarPalavra() {
+        const palavraS = (arrayPalavra.join("")); //junta a array da palavra sorteada
+        console.log(palavraS);
+        console.log(palavraS.normalize('NFD').replace(/[\u0300-\u036f]/g, "")); //retira os acentos e ç
         console.log("Tá funcionando");
     }
 
@@ -71,7 +76,15 @@ export default function App() {
 
             <div className="botoes-chute">
                 <div className="botoes">
-                    {alfabeto.map((l, index) => <Botao key={index} letra={l.toUpperCase()} />)}
+                    {alfabeto.map((letra, indice) => (
+                        <button
+                            key={indice}
+                            disabled={desabilitar}
+                            data-identifier="letter"
+                            onClick={() => selecionarLetra(letra)}
+                            className="botao">{letra.toUpperCase()}
+                        </button>))
+                    }
                 </div>
                 <div className="chute">
                     <p>Já sei a palavra!</p>
