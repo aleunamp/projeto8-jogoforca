@@ -16,6 +16,8 @@ export default function App() {
     const [desabilitar, setDesabilitar] = React.useState(true);
     const [chuteDoInput, setChute] = React.useState("");
     const [arrayPalavra, setArrayPalavra] = React.useState([]);
+    const [arraySublinhados, setArraySublinhados] = React.useState([]);
+    const [letrasClicadas, setLetrasClicadas] = React.useState([]);
 
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
         "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -31,9 +33,9 @@ export default function App() {
 
         const arrayDaPalavra = palavraSorteadaSA.split("");
         const qtdDeLetras = arrayDaPalavra.length;
-        console.log(qtdDeLetras);
 
-        setSublinhado("_ ".repeat(qtdDeLetras));
+        const subFuturo = "_ ".repeat(qtdDeLetras);
+        setSublinhado(subFuturo);
 
         setArrayPalavra(arrayDaPalavra);
 
@@ -41,26 +43,49 @@ export default function App() {
 
         setLetrasCorretas("letrasCorretas");
         setContagem(0);
+
+        setaArraySublinhados(subFuturo);
+    }
+
+
+
+    function setaArraySublinhados(subFuturo) {
+        setArraySublinhados(subFuturo.split(" ").filter((item) => item !== ""));
     }
 
     function selecionarLetra(letra) {
-        const arraySublinhados = sublinhados.split(" ").filter((item) => item !== "");
-        console.log(arraySublinhados);
+        const novoletrasClicadas = [...letrasClicadas, letra];
+        setLetrasClicadas(novoletrasClicadas);
 
         for (let i = 0; i < arrayPalavra.length; i++) {
             if (arrayPalavra.includes(letra)) {
-                console.log("Tá funcionando");
-            }
+                for (let j = 0; j < arrayPalavra.length; j++) {
+                    if (arrayPalavra[j] === letra) {
+                        arraySublinhados[j] = letra;
+                        setArraySublinhados(arraySublinhados);
+                        setSublinhado(arraySublinhados.join(" "));
 
+                        if (arraySublinhados.join("") === arrayPalavra.join("")) {
+                            setSublinhado(arrayPalavra.join(" "));
+                            setLetrasCorretas("letrasCorretas verde");
+                            setContagem(contagemDeErros);
+                            setLetrasClicadas([]);
+                        }
+                    }
+                }
+
+                console.log("Tem a letra");
+            }
 
             else {
                 setContagem(contagemDeErros + 1);
-                console.log("não tem essa letra aí");
+                console.log("Não tem essa letra aí");
 
                 if (contagemDeErros === (arrayPalavra.length - 1)) {
                     setSublinhado(arrayPalavra.join(" "));
                     setLetrasCorretas("letrasCorretas vermelho");
                     setContagem(6);
+                    setLetrasClicadas([]);
                     setDesabilitar(true);
                 }
             }
@@ -68,6 +93,8 @@ export default function App() {
     }
 
     console.log(contagemDeErros);
+    console.log(letrasClicadas);
+    console.log(arraySublinhados);
 
     function mudouInput(event) {
         setChute(event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
@@ -80,13 +107,15 @@ export default function App() {
             setSublinhado(arrayPalavra.join(" "));
             setLetrasCorretas("letrasCorretas verde");
             setContagem(contagemDeErros);
+            setLetrasClicadas([]);
             setDesabilitar(true);
-        } 
-        
+        }
+
         else {
             setSublinhado(arrayPalavra.join(" "));
             setLetrasCorretas("letrasCorretas vermelho");
             setContagem(6);
+            setLetrasClicadas([]);
             setDesabilitar(true);
         }
 
