@@ -14,6 +14,7 @@ export default function App() {
     const [contagemDeErros, setContagem] = React.useState(0);
     const [sublinhados, setSublinhado] = React.useState("");
     const [arrayPalavra, setArrayPalavra] = React.useState([]);
+    const [letrasCorretas, setLetrasCorretas] = React.useState("letrasCorretas");
 
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
         "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -24,37 +25,48 @@ export default function App() {
     function sortearPalavra() {
         const indiceSorteado = Math.floor(Math.random() * palavras.length);
         const palavraSorteada = palavras[indiceSorteado];
+        const palavraSorteadaSA = palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         console.log(palavraSorteada);
 
-        const arrayDaPalavra = palavraSorteada.split("");
+        const arrayDaPalavra = palavraSorteadaSA.split("");
         const qtdDeLetras = arrayDaPalavra.length;
         console.log(qtdDeLetras);
 
-        setSublinhado("__ ".repeat(qtdDeLetras));
+        setSublinhado("_ ".repeat(qtdDeLetras));
 
-        setArrayPalavra(palavraSorteada.split(""));
-        console.log(arrayPalavra);
+        setArrayPalavra(arrayDaPalavra);
 
         setDesabilitar(false);
     }
 
     function selecionarLetra(letra) {
-        console.log(arrayPalavra);
+        const arraySublinhados = sublinhados.split(" ").filter((item) => item !== "");
 
-        //testa se a letra está na palavra sorteada
-        if (arrayPalavra.includes(letra)) {
-            console.log("Tá funcionando");
-        } else {
-            setContagem(contagemDeErros + 1);
-            console.log("não tem essa letra aí");
+        for (let i = 0; i < arrayPalavra.length; i++) {
+            if (arrayPalavra.includes(letra)) {
+                console.log("Tá funcionando");
+            }
+
+
+            else {
+                setContagem(contagemDeErros + 1);
+                console.log("não tem essa letra aí");
+
+                if (contagemDeErros === (arrayPalavra.length - 1)) {
+                    setSublinhado(arrayPalavra.join(" "));
+                    setLetrasCorretas("letrasCorretas vermelho");
+                    setContagem(6);
+                    setDesabilitar(true);
+                }
+            }
         }
     }
 
+    console.log(contagemDeErros);
+
     function chutarPalavra() {
-        const palavraS = (arrayPalavra.join("")); //junta a array da palavra sorteada
-        console.log(palavraS);
-        console.log(palavraS.normalize('NFD').replace(/[\u0300-\u036f]/g, "")); //retira os acentos e ç
-        console.log("Tá funcionando");
+        const palavraSorteada = (arrayPalavra.join("").normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+        console.log(palavraSorteada);
     }
 
     return (<div>
@@ -70,7 +82,7 @@ export default function App() {
                         onClick={sortearPalavra} className="escolhaDePalavra">
                         Escolher Palavra
                     </button>
-                    <div data-identifier="word" className="letrasCorretas">{sublinhados}</div>
+                    <div data-identifier="word" className={letrasCorretas}>{sublinhados}</div>
                 </div>
             </div>
 
