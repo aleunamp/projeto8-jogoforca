@@ -10,11 +10,12 @@ import forca6 from "./assets/forca6.png";
 
 
 export default function App() {
-    const [desabilitar, setDesabilitar] = React.useState(true);
     const [contagemDeErros, setContagem] = React.useState(0);
     const [sublinhados, setSublinhado] = React.useState("");
-    const [arrayPalavra, setArrayPalavra] = React.useState([]);
     const [letrasCorretas, setLetrasCorretas] = React.useState("letrasCorretas");
+    const [desabilitar, setDesabilitar] = React.useState(true);
+    const [chuteDoInput, setChute] = React.useState("");
+    const [arrayPalavra, setArrayPalavra] = React.useState([]);
 
     const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
         "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -37,10 +38,14 @@ export default function App() {
         setArrayPalavra(arrayDaPalavra);
 
         setDesabilitar(false);
+
+        setLetrasCorretas("letrasCorretas");
+        setContagem(0);
     }
 
     function selecionarLetra(letra) {
         const arraySublinhados = sublinhados.split(" ").filter((item) => item !== "");
+        console.log(arraySublinhados);
 
         for (let i = 0; i < arrayPalavra.length; i++) {
             if (arrayPalavra.includes(letra)) {
@@ -64,9 +69,28 @@ export default function App() {
 
     console.log(contagemDeErros);
 
+    function mudouInput(event) {
+        setChute(event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+    }
+
     function chutarPalavra() {
         const palavraSorteada = (arrayPalavra.join("").normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
-        console.log(palavraSorteada);
+
+        if (chuteDoInput === palavraSorteada) {
+            setSublinhado(arrayPalavra.join(" "));
+            setLetrasCorretas("letrasCorretas verde");
+            setContagem(contagemDeErros);
+            setDesabilitar(true);
+        } 
+        
+        else {
+            setSublinhado(arrayPalavra.join(" "));
+            setLetrasCorretas("letrasCorretas vermelho");
+            setContagem(6);
+            setDesabilitar(true);
+        }
+
+        setChute("");
     }
 
     return (<div>
@@ -101,6 +125,9 @@ export default function App() {
                 <div className="chute">
                     <p>Já sei a palavra!</p>
                     <input data-identifier="type-guess"
+                        disabled={desabilitar}
+                        onChange={mudouInput}
+                        value={chuteDoInput}
                         placeholder="Digite a palavra aqui..."
                     />
                     <button
