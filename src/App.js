@@ -70,17 +70,14 @@ export default function App() {
                             setLetrasCorretas("letrasCorretas verde");
                             setContagem(contagemDeErros);
                             setLetrasClicadas([]);
+                            setDesabilitar(true);
                         }
                     }
                 }
-
-                console.log("Tem a letra");
             }
 
             else {
                 setContagem(contagemDeErros + 1);
-                console.log("Não tem essa letra aí");
-
                 if (contagemDeErros === (arrayPalavra.length - 1)) {
                     setSublinhado(arrayPalavra.join(" "));
                     setLetrasCorretas("letrasCorretas vermelho");
@@ -144,9 +141,9 @@ export default function App() {
                     {alfabeto.map((letra, indice) => (
                         <button
                             key={indice}
-                            disabled={desabilitar}
+                            disabled={desabilitar || letrasClicadas.includes(letra) ? true : false}
                             data-identifier="letter"
-                            onClick={() => selecionarLetra(letra)}
+                            onClick={() => selecionarLetra(letra, indice)}
                             className="botao">{letra.toUpperCase()}
                         </button>))
                     }
