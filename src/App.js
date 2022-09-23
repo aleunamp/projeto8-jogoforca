@@ -43,6 +43,7 @@ export default function App() {
 
         setLetrasCorretas("letrasCorretas");
         setContagem(0);
+        setLetrasClicadas([]);
 
         setaArraySublinhados(subFuturo);
     }
@@ -51,6 +52,22 @@ export default function App() {
 
     function setaArraySublinhados(subFuturo) {
         setArraySublinhados(subFuturo.split(" ").filter((item) => item !== ""));
+    }
+
+    function ganhou(){
+        setSublinhado(arrayPalavra.join(" "));
+        setLetrasCorretas("letrasCorretas verde");
+        setContagem(contagemDeErros);
+        setLetrasClicadas([]);
+        setDesabilitar(true);
+    }
+
+    function perdeu(){
+        setSublinhado(arrayPalavra.join(" "));
+        setLetrasCorretas("letrasCorretas vermelho");
+        setContagem(6);
+        setLetrasClicadas([]);
+        setDesabilitar(true);
     }
 
     function selecionarLetra(letra) {
@@ -66,11 +83,7 @@ export default function App() {
                         setSublinhado(arraySublinhados.join(" "));
 
                         if (arraySublinhados.join("") === arrayPalavra.join("")) {
-                            setSublinhado(arrayPalavra.join(" "));
-                            setLetrasCorretas("letrasCorretas verde");
-                            setContagem(contagemDeErros);
-                            setLetrasClicadas([]);
-                            setDesabilitar(true);
+                            ganhou();
                         }
                     }
                 }
@@ -78,12 +91,8 @@ export default function App() {
 
             else {
                 setContagem(contagemDeErros + 1);
-                if (contagemDeErros === (arrayPalavra.length - 1)) {
-                    setSublinhado(arrayPalavra.join(" "));
-                    setLetrasCorretas("letrasCorretas vermelho");
-                    setContagem(6);
-                    setLetrasClicadas([]);
-                    setDesabilitar(true);
+                if (contagemDeErros === (imagensDaForca.length - 1)) {
+                    perdeu();
                 }
             }
         }
@@ -101,19 +110,12 @@ export default function App() {
         const palavraSorteada = (arrayPalavra.join("").normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
 
         if (chuteDoInput === palavraSorteada) {
-            setSublinhado(arrayPalavra.join(" "));
-            setLetrasCorretas("letrasCorretas verde");
-            setContagem(contagemDeErros);
-            setLetrasClicadas([]);
-            setDesabilitar(true);
+            ganhou();
         }
 
         else {
             setSublinhado(arrayPalavra.join(" "));
-            setLetrasCorretas("letrasCorretas vermelho");
-            setContagem(6);
-            setLetrasClicadas([]);
-            setDesabilitar(true);
+            perdeu();
         }
 
         setChute("");

@@ -36,7 +36,7 @@ img {
     padding: 10px 10px;
 
     color: white;
-    background-color: green;
+    background-color: #27ae60;
 }
 
 .letrasCorretas {
@@ -56,8 +56,8 @@ img {
 
 .botao{
     padding: 10px 10px;
-    color: gray;
-    background-color: lightgrey;
+    color: #39739d;
+    background-color: #9faab5;
 }
 
 .chute {
@@ -73,8 +73,8 @@ input, .confirmarChute {
 }
 
 .confirmarChute{
-    color: blue;
-    background-color: lightblue;
+    color: rgb(122, 122, 240);
+    background-color: rgb(203, 232, 241);
 }
 
 .vermelho{
