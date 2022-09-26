@@ -70,7 +70,6 @@ export default function App() {
     function perdeu(){
         const arrayComAcento = palavraSorteada.split("");
         setSublinhado(arrayComAcento.join(" "));
-        setSublinhado(arrayPalavra.join(" "));
         setLetrasCorretas("letrasCorretas vermelho");
         setContagem(6);
         setLetrasClicadas([]);
@@ -116,7 +115,7 @@ export default function App() {
     function chutarPalavra() {
         const palavraSorteada = (arrayPalavra.join("").normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
 
-        if (chuteDoInput === palavraSorteada) {
+        if (chuteDoInput === palavraSorteada || chuteDoInput === palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, "")) {
             ganhou();
         }
 
