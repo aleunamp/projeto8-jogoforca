@@ -12,10 +12,12 @@ import forca6 from "./assets/forca6.png";
 export default function App() {
     const [contagemDeErros, setContagem] = React.useState(0);
     const [sublinhados, setSublinhado] = React.useState("");
+    const [palavraSorteada, setPalavraSorteada] = React.useState("");
     const [letrasCorretas, setLetrasCorretas] = React.useState("letrasCorretas");
     const [desabilitar, setDesabilitar] = React.useState(true);
     const [chuteDoInput, setChute] = React.useState("");
     const [arrayPalavra, setArrayPalavra] = React.useState([]);
+    const [arrayPalavraCA, setArrayPalavraCA] = React.useState([]);
     const [arraySublinhados, setArraySublinhados] = React.useState([]);
     const [letrasClicadas, setLetrasClicadas] = React.useState([]);
 
@@ -28,16 +30,19 @@ export default function App() {
     function sortearPalavra() {
         const indiceSorteado = Math.floor(Math.random() * palavras.length);
         const palavraSorteada = palavras[indiceSorteado];
+        setPalavraSorteada(palavraSorteada);
         const palavraSorteadaSA = palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         console.log(palavraSorteada);
 
         const arrayDaPalavra = palavraSorteadaSA.split("");
+        const arrayDaPalavraCA = palavraSorteada.split("");
         const qtdDeLetras = arrayDaPalavra.length;
 
         const subFuturo = "_ ".repeat(qtdDeLetras);
         setSublinhado(subFuturo);
 
         setArrayPalavra(arrayDaPalavra);
+        setArrayPalavraCA(arrayDaPalavraCA);
 
         setDesabilitar(false);
 
@@ -49,13 +54,13 @@ export default function App() {
     }
 
 
-
     function setaArraySublinhados(subFuturo) {
         setArraySublinhados(subFuturo.split(" ").filter((item) => item !== ""));
     }
 
     function ganhou(){
-        setSublinhado(arrayPalavra.join(" "));
+        const arrayComAcento = palavraSorteada.split("");
+        setSublinhado(arrayComAcento.join(" "));
         setLetrasCorretas("letrasCorretas verde");
         setContagem(contagemDeErros);
         setLetrasClicadas([]);
@@ -63,6 +68,8 @@ export default function App() {
     }
 
     function perdeu(){
+        const arrayComAcento = palavraSorteada.split("");
+        setSublinhado(arrayComAcento.join(" "));
         setSublinhado(arrayPalavra.join(" "));
         setLetrasCorretas("letrasCorretas vermelho");
         setContagem(6);
@@ -78,7 +85,7 @@ export default function App() {
             if (arrayPalavra.includes(letra)) {
                 for (let j = 0; j < arrayPalavra.length; j++) {
                     if (arrayPalavra[j] === letra) {
-                        arraySublinhados[j] = letra;
+                        arraySublinhados[j] = arrayPalavraCA[j];
                         setArraySublinhados(arraySublinhados);
                         setSublinhado(arraySublinhados.join(" "));
 
@@ -91,7 +98,7 @@ export default function App() {
 
             else {
                 setContagem(contagemDeErros + 1);
-                if (contagemDeErros === (imagensDaForca.length - 1)) {
+                if (contagemDeErros === (imagensDaForca.length - 2)) {
                     perdeu();
                 }
             }
