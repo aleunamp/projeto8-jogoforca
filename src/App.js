@@ -152,7 +152,7 @@ export default function App() {
                             key={indice}
                             disabled={desabilitar || letrasClicadas.includes(letra) ? true : false}
                             data-identifier="letter"
-                            onClick={() => selecionarLetra(letra, indice)}
+                            onClick={() => selecionarLetra(letra)}
                             className="botao">{letra.toUpperCase()}
                         </button>))
                     }
