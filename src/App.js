@@ -115,7 +115,7 @@ export default function App() {
     function chutarPalavra() {
         const palavraSorteada = (arrayPalavra.join("").normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
 
-        if (chuteDoInput === palavraSorteada || chuteDoInput === palavraSorteada.normalize('NFD').replace(/[\u0300-\u036f]/g, "")) {
+        if (chuteDoInput === palavraSorteada) {
             ganhou();
         }
 
